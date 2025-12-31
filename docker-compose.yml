@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: swed-news-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: swed_news
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  collector:
+    build:
+      context: ./collector
+      dockerfile: Dockerfile
+    container_name: swed-news-collector
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
+      NODE_ENV: development
+    volumes:
+      - ./collector:/app
+      - /app/node_modules
+
+  enricher:
+    build:
+      context: ./enricher
+      dockerfile: Dockerfile
+    container_name: swed-news-enricher
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
+      NODE_ENV: development
+    volumes:
+      - ./enricher:/app
+      - /app/node_modules
+
+  processor:
+    build:
+      context: ./processor
+      dockerfile: Dockerfile
+    container_name: swed-news-processor
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
+      NODE_ENV: development
+    volumes:
+      - ./processor:/app
+      - /app/node_modules
+
+  publisher:
+    build:
+      context: ./publisher
+      dockerfile: Dockerfile
+    container_name: swed-news-publisher
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
+      NODE_ENV: development
+    volumes:
+      - ./publisher:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:

@@ -1,0 +1,22 @@
+{
+  "name": "swed-news",
+  "version": "1.0.0",
+  "description": "News processing monorepo",
+  "private": true,
+  "workspaces": [
+    "collector",
+    "enricher",
+    "processor",
+    "publisher"
+  ],
+  "scripts": {
+    "dev:collector": "npm run dev --workspace=collector",
+    "dev:enricher": "npm run dev --workspace=enricher",
+    "dev:processor": "npm run dev --workspace=processor",
+    "dev:publisher": "npm run dev --workspace=publisher"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
