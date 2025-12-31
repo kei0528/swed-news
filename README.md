@@ -47,6 +47,31 @@ npm run dev:publisher
 - **Processor**: Processes enriched news
 - **Publisher**: Publishes processed news
 
+### Testing
+
+Each service has comprehensive unit and integration tests using Jest.
+
+Run tests for a specific service:
+
+```bash
+# Run all tests
+npm run test --workspace=collector
+
+# Run unit tests only
+npm run test:unit --workspace=collector
+
+# Run integration tests only
+npm run test:integration --workspace=collector
+
+# Run tests in watch mode
+npm run test:watch --workspace=collector
+
+# Generate coverage report
+npm run test:coverage --workspace=collector
+```
+
+Replace `collector` with `enricher`, `processor`, or `publisher` for other services.
+
 ## Database
 
 PostgreSQL is available at:
