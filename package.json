@@ -4,6 +4,7 @@
   "description": "News processing monorepo",
   "private": true,
   "workspaces": [
+    "common",
     "collector",
     "enricher",
     "processor",

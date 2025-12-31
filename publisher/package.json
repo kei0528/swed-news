@@ -16,6 +16,7 @@
     "format": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
+    "common": "*",
     "tsx": "^4.7.0"
   },
   "devDependencies": {
