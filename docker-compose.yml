@@ -23,6 +23,7 @@ services:
       context: ./collector
       dockerfile: Dockerfile
     container_name: swed-news-collector
+    command: sh -c "npm install && npm run dev"
     depends_on:
       postgres:
         condition: service_healthy
@@ -38,6 +39,7 @@ services:
       context: ./enricher
       dockerfile: Dockerfile
     container_name: swed-news-enricher
+    command: sh -c "npm install && npm run dev"
     depends_on:
       postgres:
         condition: service_healthy
@@ -53,6 +55,7 @@ services:
       context: ./processor
       dockerfile: Dockerfile
     container_name: swed-news-processor
+    command: sh -c "npm install && npm run dev"
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,6 +71,7 @@ services:
       context: ./publisher
       dockerfile: Dockerfile
     container_name: swed-news-publisher
+    command: sh -c "npm install && npm run dev"
     depends_on:
       postgres:
         condition: service_healthy
