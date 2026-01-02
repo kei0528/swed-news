@@ -2,10 +2,23 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Copy root package.json for workspace setup
 COPY package*.json ./
 
-RUN npm install
+# Copy common package
+COPY common ./common
 
-COPY . .
+# Copy collector package
+COPY collector ./collector
 
-CMD sh -c "npm install && npm run dev"
+# Build common package first
+WORKDIR /app/common
+RUN npm install && npm run build
+
+# Install collector dependencies and link common
+WORKDIR /app/collector
+RUN npm install && \
+    rm -rf node_modules/common && \
+    ln -s /app/common node_modules/common
+
+CMD ["npm", "run", "dev"]

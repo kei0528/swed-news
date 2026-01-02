@@ -20,8 +20,8 @@ services:
 
   collector:
     build:
-      context: ./collector
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: collector/Dockerfile
     container_name: swed-news-collector
     depends_on:
       postgres:
@@ -30,13 +30,16 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
       NODE_ENV: development
     volumes:
-      - ./collector:/app
-      - /app/node_modules
+      - ./collector:/app/collector
+      - ./common:/app/common
+      - /app/collector/node_modules
+      - /app/common/node_modules
+    working_dir: /app/collector
 
   enricher:
     build:
-      context: ./enricher
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: enricher/Dockerfile
     container_name: swed-news-enricher
     depends_on:
       postgres:
@@ -45,13 +48,16 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
       NODE_ENV: development
     volumes:
-      - ./enricher:/app
-      - /app/node_modules
+      - ./enricher:/app/enricher
+      - ./common:/app/common
+      - /app/enricher/node_modules
+      - /app/common/node_modules
+    working_dir: /app/enricher
 
   processor:
     build:
-      context: ./processor
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: processor/Dockerfile
     container_name: swed-news-processor
     depends_on:
       postgres:
@@ -60,13 +66,16 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
       NODE_ENV: development
     volumes:
-      - ./processor:/app
-      - /app/node_modules
+      - ./processor:/app/processor
+      - ./common:/app/common
+      - /app/processor/node_modules
+      - /app/common/node_modules
+    working_dir: /app/processor
 
   publisher:
     build:
-      context: ./publisher
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: publisher/Dockerfile
     container_name: swed-news-publisher
     depends_on:
       postgres:
@@ -75,8 +84,11 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/swed_news
       NODE_ENV: development
     volumes:
-      - ./publisher:/app
-      - /app/node_modules
+      - ./publisher:/app/publisher
+      - ./common:/app/common
+      - /app/publisher/node_modules
+      - /app/common/node_modules
+    working_dir: /app/publisher
 
 volumes:
   postgres_data:
