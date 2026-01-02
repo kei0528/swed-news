@@ -1,2 +1,2 @@
-export * from './types/news.type.js';
-export * from './utils/tryCatch.js';
+export * from './types';
+export * from './utils';
