@@ -11,9 +11,14 @@ COPY common ./common
 # Copy collector package
 COPY collector ./collector
 
+# Ensure OpenSSL libs for Prisma on musl
+RUN apk add --no-cache openssl
+
 # Build common package first
 WORKDIR /app/common
-RUN npm install && npm run build
+RUN npm install \
+    && npm run prisma:generate \
+    && npm run build
 
 # Install collector dependencies and link common
 WORKDIR /app/collector
