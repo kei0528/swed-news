@@ -25,5 +25,6 @@ model News {
 
   @@index([pubDate])
   @@index([createdAt])
+  @@unique([title, pubDate, link])
   @@map("news")
 }
