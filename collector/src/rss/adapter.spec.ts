@@ -169,13 +169,11 @@ describe('adapter', () => {
       expect(mockTryCatch).toHaveBeenCalled();
     });
 
-    it('should log error and throw when RSS fetch fails', async () => {
+    it('throw when RSS fetch fails', async () => {
       const mockError = new Error('Network error');
       mockTryCatch.mockResolvedValue([null, mockError]);
 
       await expect(getNewsRss()).rejects.toThrow('Network error');
-
-      expect(log.error).toHaveBeenCalledWith(`Failed to fetch RSS feed: ${mockError.message}`);
     });
   });
 });

@@ -7,7 +7,6 @@ const parser = new Parser();
 export async function getNewsRss(): Promise<NewsItem[]> {
   const [feed, error] = await tryCatch(parser.parseURL(RSS_URL_SVT));
   if (error) {
-    log.error(`Failed to fetch RSS feed: ${error.message}`);
     throw error;
   }
   const newsRss = parseNewsRss(feed);
